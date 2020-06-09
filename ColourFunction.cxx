@@ -30,7 +30,11 @@ void set_text_colour(enum colours colour)
        }
 }
 
-
+char* GetStringWithAnsi(enum colours colour, char const * originalString, char* buffer, int numBytes)
+{
+	strcpy(buffer, originalString);
+	return buffer;
+}
 
 int main()
 {
@@ -39,6 +43,10 @@ int main()
 
  	set_text_colour(RED);
 	printf("I am RED\n");
+
+	char buffer[50];
+	char const * iAmRed = "I am Red\n";
+	printf(GetStringWithAnsi(RED, iAmRed, buffer, 50));
 
 	return 0;
 }
