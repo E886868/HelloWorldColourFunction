@@ -35,24 +35,59 @@ void set_text_colour(enum colours colour)
 int main()
 {
 FILE *fp;
-int ch;
+int ch, counter;
 fp=fopen("test2.dmd","r");
-
+counter = 0;
 
 while (ch != EOF)
 {
+
+        if (counter%16==0)
+        {
+                printf ("\n");
+        }
+
         ch = fgetc (fp);
+
 
         if (ch != EOF)
         {
+		if (ch == 0)
+        	{
+                	set_text_colour(BLUE);
+        	}
+	        else
+        	{
+                	set_text_colour(RESET);
+        	}
 
-        printf ("%x",ch);
+	printf ("%02x ",ch);
 
         }
+
+
+	counter++;
 
 }
 
 fclose(fp);
 return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
