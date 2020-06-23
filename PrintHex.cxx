@@ -1,7 +1,7 @@
 #include<stdio.h>
 
 
-enum colours {BLUE, RED, CYAN, YELLOW, MAGENTA, GREEN, RESET};
+enum colours {BLUE, RED, CYAN, YELLOW, MAGENTA, GREEN, RESET, BOLDYELLOW};
 void set_text_colour(enum colours colour)
 {
        switch (colour)
@@ -27,25 +27,40 @@ void set_text_colour(enum colours colour)
        case  RESET:
                 printf("\033[0m");
              break;
+       case  BOLDYELLOW:
+		printf("\033[01;33m");
+	     break;
        }
 }
 
 
 
-int main()
+int main(int argc, char* argv[])
 {
 FILE *fp;
-int ch, counter;
+int ch, counter, header;
 fp=fopen("test2.dmd","r");
-counter = 0;
+counter = 1;
+header = 0;
 
-while (ch != EOF)
+while (true)
 {
+	if (header<16)
+	{
+		set_text_colour(BOLDYELLOW);
+		printf("%x  ",header);
+		header++;
+	}
+	else
+	{
+		break;
+	}
+}
 
-        if (counter%16==0)
-        {
-                printf ("\n");
-        }
+printf("\n\n");
+
+while (true)
+{
 
         ch = fgetc (fp);
 
@@ -65,29 +80,22 @@ while (ch != EOF)
 
         }
 
+		else
+		{
+			break;
+		}
+
+	 if (counter%16==0)
+        	{
+                	printf ("\n");
+        	}
+
 
 	counter++;
+
 
 }
 
 fclose(fp);
 return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
