@@ -38,10 +38,13 @@ void set_text_colour(enum colours colour)
 int main(int argc, char* argv[])
 {
 FILE *fp;
-int ch, counter, header;
+int ch, counter, header, address;
 fp=fopen("test2.dmd","r");
 counter = 1;
 header = 0;
+address = 0;
+set_text_colour(BOLDYELLOW);
+printf("Address   ");
 
 while (true)
 {
@@ -57,11 +60,12 @@ while (true)
 	}
 }
 
-printf("\n\n");
+printf("\n");
+printf("%08x  ",address);
+address++;
 
 while (true)
 {
-
         ch = fgetc (fp);
 
 
@@ -87,15 +91,18 @@ while (true)
 
 	 if (counter%16==0)
         	{
+			set_text_colour(BOLDYELLOW);
                 	printf ("\n");
+			printf("%08x  ",address);
         	}
 
 
 	counter++;
-
+	address++;
 
 }
 
+printf("\n");
 fclose(fp);
 return 0;
 }
