@@ -69,7 +69,7 @@ while (true)
         ch = fgetc (fp);
 
 
-        if (ch != EOF)
+        if (ch < 150)
         {
 		if (ch == 0)
         	{
@@ -81,7 +81,8 @@ while (true)
         	}
 
 	printf ("%02x ",ch);
-
+	set_text_colour(RED);
+	printf ("%c",ch);
         }
 
 		else
