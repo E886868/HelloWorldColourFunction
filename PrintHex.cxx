@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<memory.h>
 
 
 enum colours {BLUE, RED, CYAN, YELLOW, MAGENTA, GREEN, RESET, BOLDYELLOW};
@@ -38,11 +39,14 @@ void set_text_colour(enum colours colour)
 int main(int argc, char* argv[])
 {
 FILE *fp;
-int ch, counter, header, address;
+int ch, counter, header, address, i=0;
+char dumpline[17];
+memset(dumpline,0,17);
 fp=fopen("test2.dmd","r");
 counter = 1;
 header = 0;
 address = 0;
+
 set_text_colour(BOLDYELLOW);
 printf("Address   ");
 
@@ -60,16 +64,28 @@ while (true)
 	}
 }
 
+printf("Dump");
 printf("\n");
 printf("%08x  ",address);
-address++;
 
 while (true)
 {
-        ch = fgetc (fp);
+	ch = fgetc (fp);
 
+	if (
+		(ch >= ' ' && ch <= '~')
+	   )
 
-        if (ch < 150)
+	{
+		dumpline[address%16] = ch;
+	}
+
+	else
+	{
+		dumpline[address%16] = '.';
+	}
+
+        if (ch != EOF)
         {
 		if (ch == 0)
         	{
@@ -80,9 +96,8 @@ while (true)
                 	set_text_colour(RESET);
         	}
 
-	printf ("%02x ",ch);
-	set_text_colour(RED);
-	printf ("%c",ch);
+	printf ("%02x ", ch);
+
         }
 
 		else
@@ -90,18 +105,24 @@ while (true)
 			break;
 		}
 
+
 	 if (counter%16==0)
         	{
 			set_text_colour(BOLDYELLOW);
+			printf("%s",dumpline);
                 	printf ("\n");
-			printf("%08x  ",address);
+			printf("%08x  ",address+1);
         	}
 
 
 	counter++;
 	address++;
 
+
 }
+
+
+
 
 printf("\n");
 fclose(fp);
