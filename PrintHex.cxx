@@ -35,38 +35,28 @@ void set_text_colour(enum colours colour)
 }
 
 
-
 int main(int argc, char* argv[])
 {
 FILE *fp;
-int ch, counter, header, address, i=0;
+int ch, count, x;
 char dumpline[17];
 memset(dumpline,0,17);
 fp=fopen("test2.dmd","r");
-counter = 1;
-header = 0;
-address = 0;
+count = 0;
 
 set_text_colour(BOLDYELLOW);
 printf("Address   ");
 
-while (true)
+for (x = 0; x < 16; x++)
 {
-	if (header<16)
-	{
-		set_text_colour(BOLDYELLOW);
-		printf("%x  ",header);
-		header++;
-	}
-	else
-	{
-		break;
-	}
+	set_text_colour(BOLDYELLOW);
+        printf("%x  ",x);
+
 }
 
 printf("Dump");
 printf("\n");
-printf("%08x  ",address);
+printf("%08x  ",count);
 
 while (true)
 {
@@ -77,12 +67,12 @@ while (true)
 	   )
 
 	{
-		dumpline[address%16] = ch;
+		dumpline[count%16] = ch;
 	}
 
 	else
 	{
-		dumpline[address%16] = '.';
+		dumpline[count%16] = '.';
 	}
 
         if (ch != EOF)
@@ -106,17 +96,16 @@ while (true)
 		}
 
 
-	 if (counter%16==0)
+	 if ((count+1)%16==0)
         	{
 			set_text_colour(BOLDYELLOW);
 			printf("%s",dumpline);
                 	printf ("\n");
-			printf("%08x  ",address+1);
+			printf("%08x  ",count+1);
         	}
 
 
-	counter++;
-	address++;
+	count++;
 
 
 }
