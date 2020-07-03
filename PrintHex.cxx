@@ -35,11 +35,52 @@ void set_text_colour(enum colours colour)
 }
 
 
+void print_line_ascii(char arr1[], int length)
+{
+	int i;
+
+	for (i = 0; i < 17; i++)
+	{
+
+		char ch = arr1[i];
+		if (
+                (ch >= ' ' && ch <= '~')
+                )
+
+                {
+                        printf("%s",ch);
+                }
+
+                else
+                {
+                        printf(".");
+                }
+
+
+	}
+}
+
+void print_line_hex(char arr2[], int length)
+{
+	int i;
+
+	for (i = 0; i < 17; i++)
+	{
+
+		char ch = arr2[i];
+		printf("%x",ch);
+
+	}
+}
+
+
+
 int main(int argc, char* argv[])
 {
 FILE *fp;
 int ch, count, x;
 char dumpline[17];
+char arr[17];
 memset(dumpline,0,17); //CLEARING ARRAY MEMORY
 fp=fopen("test2.dmd","r"); //POINTING TO .DMD FILE
 count = 0;
@@ -58,64 +99,18 @@ printf("Dump"); //COLUMN TITLE 'DUMP'
 printf("\n");
 printf("%08x  ",count); //PRINTING FIRST ADDRESS '00000000'
 
-while (true)
+while (ch != EOF)
 {
 	ch = fgetc (fp); //GETTING FIRST BYTE
-
-
-	//DETERMINING WHICH CHARACTORS TO PRINT IN DUMP COLUMN
-	if (
-		(ch >= ' ' && ch <= '~')
-	   )
-
-	{
-		dumpline[count%16] = ch;
-	}
-
-	else
-	{
-		dumpline[count%16] = '.';
-	}
-
-
-        if (ch != EOF)
-        {
-		//SETTING HEX COLOUR DEPENDING ON WHETHER HEX IS EQUAL TO '00' OR NOT
-		if (ch == 0)
-        	{
-                	set_text_colour(BLUE);
-        	}
-	        else
-        	{
-                	set_text_colour(RESET);
-        	}
-
-	printf ("%02x ", ch); //PRINTING HEX BYTES
-
-        }
-
-		else
-		{
-			break;
-		}
-
-
-	 if ((count+1)%16==0) //DETERMINING THE END OF A LINE OF HEX
-        	{
-			set_text_colour(BOLDYELLOW);
-			printf("%s",dumpline); //PRINTING ARRAY IN ASCII CHARACTORS IN DUMP COLUMN
-                	printf ("\n");
-			printf("%08x  ",count+1); //PRINTING NEXT ADDRESS ON NEW LINE 
-        	}
-
-
+	arr[count%16] = ch;
 	count++;
 
-
+	if ((count+1)%16==0) //DETERMINING THE END OF A LINE OF HEX
+	{
+		print_line_ascii(arr1, 1);
+                print_line_hex(arr2, 1);
+	}
 }
-
-
-
 
 printf("\n");
 fclose(fp); //CLOSE FILE
