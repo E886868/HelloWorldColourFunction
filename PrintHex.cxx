@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
 FILE *fp;
 int ch, count, x;
 char dumpline[17];
-char arr[17];
+char arr, arr1[17], arr2[17];
 memset(dumpline,0,17); //CLEARING ARRAY MEMORY
 fp=fopen("test2.dmd","r"); //POINTING TO .DMD FILE
 count = 0;
@@ -102,13 +102,13 @@ printf("%08x  ",count); //PRINTING FIRST ADDRESS '00000000'
 while (ch != EOF)
 {
 	ch = fgetc (fp); //GETTING FIRST BYTE
-	arr[count%16] = ch;
+	arr[(count%16)] = ch;
 	count++;
 
 	if ((count+1)%16==0) //DETERMINING THE END OF A LINE OF HEX
 	{
-		print_line_ascii(arr1, 1);
-                print_line_hex(arr2, 1);
+		print_line_ascii(arr1, 17);
+                print_line_hex(arr2, 17);
 	}
 }
 
