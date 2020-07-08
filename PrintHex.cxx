@@ -1,40 +1,54 @@
 #include<stdio.h>
 #include<memory.h>
 
+//--------------------
 //TEXT COLOUR FUNCTION
+//--------------------
+//Function returns ANSI colour codes
+//to change text colour.
+//E.G. 'set_text_colour(YELLOW);'
+
 enum colours {BLUE, RED, CYAN, YELLOW, MAGENTA, GREEN, RESET, BOLDYELLOW};
 void set_text_colour(enum colours colour)
 {
        switch (colour)
        {
        case BLUE:
-                 printf("\033[0;34m"); //TEXT COLOUR BLUE
+                 printf("\033[0;34m");
              break;
        case RED:
-                printf("\033[0;31m"); //TEXT COLOUR RED
+                printf("\033[0;31m");
              break;
        case CYAN:
-                printf("\033[0;36m"); //TEXT COLOUR CYAN
+                printf("\033[0;36m");
              break;
        case YELLOW:
-                printf("\033[0;33m"); //TEXT COLOUR YELLOW
+                printf("\033[0;33m");
              break;
        case MAGENTA:
-                printf("\033[35m"); //TEXT COLOUR MAGENTA
+                printf("\033[35m");
              break;
        case GREEN:
-                printf("\033[32m"); //TEXT COLOUR GREEN
+                printf("\033[32m");
              break;
        case  RESET:
-                printf("\033[0m"); //TEXT COLOUR TO DEFAULT (WHITE)
+                printf("\033[0m");
              break;
        case  BOLDYELLOW:
-		printf("\033[01;33m"); //TEXT COLOUR BOLD YELLOW
+		printf("\033[01;33m");
 	     break;
        }
 }
 
-
+//------------------------------
+//PRINT ASCII CHARACTOR FUNCTION
+//------------------------------
+//Determines whether to print a byte
+//of data, 'ch', as its ascii charactor
+//or a dot '.'.
+//These charactors are then stored in
+//array, 'dumpline', to be printed later
+//in the main code.
 
 void ascii(int ch, char* dumpline, int count)
 {
