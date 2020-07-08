@@ -35,52 +35,31 @@ void set_text_colour(enum colours colour)
 }
 
 
-void print_line_ascii(char arr1[], int length)
+
+void ascii(int ch, char* dumpline, int count)
 {
-	int i;
 
-	for (i = 0; i < 17; i++)
-	{
+                if (
+                        (ch >= ' ' && ch <= '~')
+                   )
 
-		char ch = arr1[i];
-		if (
-                (ch >= ' ' && ch <= '~')
-                )
+                        {
+                                dumpline[count%16] = ch;
+                        }
 
-                {
-                        printf("%s",ch);
-                }
-
-                else
-                {
-                        printf(".");
-                }
+                        else
+                        {
+                                dumpline[count%16] = '.';
+                        }
 
 
-	}
 }
-
-void print_line_hex(char arr2[], int length)
-{
-	int i;
-
-	for (i = 0; i < 17; i++)
-	{
-
-		char ch = arr2[i];
-		printf("%x",ch);
-
-	}
-}
-
-
 
 int main(int argc, char* argv[])
 {
 FILE *fp;
 int ch, count, x;
 char dumpline[17];
-char arr, arr1[17], arr2[17];
 memset(dumpline,0,17); //CLEARING ARRAY MEMORY
 fp=fopen("test2.dmd","r"); //POINTING TO .DMD FILE
 count = 0;
@@ -90,7 +69,7 @@ printf("Address   "); //COLUMN TITLE 'ADDRESS'
 
 for (x = 0; x < 16; x++) //PRINTING HEX HEADING 0-F
 {
-	set_text_colour(BOLDYELLOW);
+        set_text_colour(BOLDYELLOW);
         printf("%x  ",x);
 
 }
@@ -99,18 +78,50 @@ printf("Dump"); //COLUMN TITLE 'DUMP'
 printf("\n");
 printf("%08x  ",count); //PRINTING FIRST ADDRESS '00000000'
 
-while (ch != EOF)
+while (true)
 {
-	ch = fgetc (fp); //GETTING FIRST BYTE
-	arr[(count%16)] = ch;
-	count++;
+        ch = fgetc (fp); //GETTING FIRST BYTE
 
-	if ((count+1)%16==0) //DETERMINING THE END OF A LINE OF HEX
-	{
-		print_line_ascii(arr1, 17);
-                print_line_hex(arr2, 17);
-	}
+        ascii(ch, dumpline, count);
+
+        if (ch != EOF)
+        {
+                //SETTING HEX COLOUR DEPENDING ON WHETHER HEX IS EQUAL TO '00' OR NOT
+                if (ch == 0)
+                {
+                        set_text_colour(BLUE);
+                }
+                else
+                {
+                        set_text_colour(RESET);
+                }
+
+        printf ("%02x ", ch); //PRINTING HEX BYTES
+
+        }
+
+                else
+                {
+                        break;
+                }
+
+
+         if ((count+1)%16==0) //DETERMINING THE END OF A LINE OF HEX
+                {
+                        set_text_colour(BOLDYELLOW);
+                        printf("%s",dumpline);
+                        printf ("\n");
+                        printf("%08x  ",count+1); //PRINTING NEXT ADDRESS ON NEW LINE
+                }
+
+
+        count++;
+
+
 }
+
+
+
 
 printf("\n");
 fclose(fp); //CLOSE FILE
