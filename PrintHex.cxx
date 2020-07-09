@@ -69,6 +69,29 @@ void ascii(int ch, char* dumpline, int count)
 
 }
 
+//-------------------
+//HEX COLOUR FUNCTION
+//-------------------
+//setting hex values equal to '0' to blue
+//and hex values that do not equal to '0'
+//to white.
+
+void hex_colour(int ch)
+{
+
+	if (ch == 0)
+                {
+                        set_text_colour(BLUE);
+                }
+                else
+                {
+                        set_text_colour(RESET);
+                }
+}
+
+
+
+
 int main(int argc, char* argv[])
 {
 FILE *fp;
@@ -100,15 +123,8 @@ while (true)
 
         if (ch != EOF)
         {
-                //SETTING HEX COLOUR DEPENDING ON WHETHER HEX IS EQUAL TO '00' OR NOT
-                if (ch == 0)
-                {
-                        set_text_colour(BLUE);
-                }
-                else
-                {
-                        set_text_colour(RESET);
-                }
+
+	hex_colour(ch);
 
         printf ("%02x ", ch); //PRINTING HEX BYTES
 
